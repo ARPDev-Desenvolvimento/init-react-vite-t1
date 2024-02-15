@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-     Teste
+     Atualização de Pai
     </>
   )
 }
