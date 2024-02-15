@@ -1,0 +1,39 @@
+name: Sync Repositories
+
+on:
+  pull_request:
+    types: [review_requested, approved]
+    branches: [master]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: github.event.review.state == 'approved'
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+
+    - name: Clone destination repository
+      run: |
+        git clone https://github.com/ARPDev-Desenvolvimento/init-react-vite-v2.git destino
+
+    - name: Fetch latest changes from destination repository
+      run: |
+        cd destino
+        git fetch origin master
+
+    - name: Merge changes from source repository
+      run: |
+        cd destino
+        git merge --no-edit origin/master
+
+    - name: Push changes to destination repository
+      run: |
+        cd destino
+        git push origin master
+
+    - name: Cleanup
+      run: rm -rf destino
