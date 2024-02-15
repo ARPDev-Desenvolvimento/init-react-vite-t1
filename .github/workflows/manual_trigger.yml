@@ -1,0 +1,38 @@
+name: Manual Trigger
+
+on:
+  workflow_dispatch:  # Acionado manualmente
+
+jobs:
+  update-fork:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'ARPDev-Desenvolvimento'
+          git config --global user.email 'arpdevdesenvolvimento@gmail.com'
+
+      - name: Add remote branch
+        run: |
+          git remote add upstream https://github.com/ARPDev-Desenvolvimento/init-react-vite-t1.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch upstream changes
+        run: git fetch upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge upstream changes
+        run: git merge upstream/master --no-edit --allow-unrelated-histories
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes to fork
+        run: git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

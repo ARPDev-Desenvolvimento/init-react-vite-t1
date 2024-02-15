@@ -4,33 +4,10 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
-  upstaem:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source repository
-          uses: actions/checkout@v2
-      
-      - name: Set up Git
-        run: |
-          git config --global user.name 'ARPDev-Desenvolvimento'
-          git config --global user.email 'arpdevdesenvolvimento@gmail.com'
-
-      - name: Add remote branch
-        run: |
-          git remote add upstream https://github.com/ARPDev-Desenvolvimento/init-react-vite.git
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update fork
-        run: |
-          git pull upstream master --rebase
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   validate:
-    needs: upstream
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
