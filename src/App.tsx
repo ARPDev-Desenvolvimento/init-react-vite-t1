@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-     Atualização de Pai
+     Inicial oper Fork
     </>
   )
 }
